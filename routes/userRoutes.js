@@ -12,6 +12,9 @@ var route  = express.Router();
 route.post('/register',usercontroller.registerUser);
 route.post('/login',usercontroller.AuthLogin);
 route.post('/pharmacie',PharmacieController.createPharmacie);
+//ID PARAM 
+route.get('/getuser/:id',usercontroller.getUser);
+route.post('/getusers/:page?',usercontroller.getUsers);
 
 
 

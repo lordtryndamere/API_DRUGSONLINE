@@ -2,12 +2,13 @@
 
 var userModel = require('../models/Usermodel');
 var moment = require('moment');
+var mongoosePaginate = require('mongoose-pagination');
 var bcrypt = require('bcrypt-nodejs');
 var jwt = require('../services/jwt');
 
 
 var userController = {
-
+//HERE REGISTER USER 
 registerUser(req,res){
 var newuser = new userModel();
 var params  = req.body;
@@ -83,7 +84,7 @@ else{
 
 
 },
-
+//THIS METHODO IS USED FOR LOGIN USERS
 AuthLogin(req,res){
     var params = req.body;
     var email  = params.email;
@@ -141,6 +142,51 @@ AuthLogin(req,res){
 
 
 
+},
+
+getUser(req,res){
+    var id = req.params.id
+    userModel.findById(id).exec((err,userfinded)=>{
+        if(err) return res.status(500).send({
+            code:500,
+            response:"Error internal server"
+        })
+
+        if (!userfinded) return res.status(404).send({
+            code:'404',
+            message:"Error , user don't finded"
+        })
+        
+        if(userfinded) return res.status(200).send({
+            code:200,
+            message:"User fined!",
+            User:userfinded
+        })
+    })
+},
+getUsers(req,res){
+    var page = 1;
+     var itemsperpage = 10;
+     if(req.params.page)
+     {
+         page= req.params.page
+     }
+     userModel.find({}).paginate(page,itemsperpage,(err,response)=>{
+         if(err) return res.status(500).send({
+             code:500,
+             response:"Error internal server"
+         })
+
+         if(!response) return res.status(404).send({
+             code:404,
+             response:"Not foud users"
+         })
+         if(response) return res.status(200).send({
+             code:200,
+             response:"users findes",
+             user:response
+         })
+     })
 }
 
 

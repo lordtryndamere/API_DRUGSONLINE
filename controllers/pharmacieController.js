@@ -5,6 +5,8 @@ var moment = require('moment');
 var bcrypt = require('bcrypt-nodejs');
 
 var PharmacieController = {
+
+    //REGISTER PHARMACIE
     createPharmacie(req,res){
         var pharmacie = new Pharmacie();
         var params  = req.body;
