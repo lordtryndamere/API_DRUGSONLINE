@@ -8,7 +8,7 @@ var userSchema = Schema({
     name:String,
     surname:String,
     role:String,
-    pedidos:[order],
+    orders:[order],
     email:String,
     role:String,
     city:String,

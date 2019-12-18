@@ -2,7 +2,11 @@
 
 var jwt = require('jwt-simple');
 var moment  = require('moment');
-var screet = "key_don't secure"
+var bcrypt = require('bcrypt-nodejs')
+var secret = "key_don't secure"
+bcrypt.hash(secret,null,(err,hashedkey)=>{
+    screet = hashedkey
+})
 
 
 exports.auth = (req,res,next) =>{
@@ -16,7 +20,7 @@ var token  = req.headers.autorization.replace(/['"]+/g,'');
 //DECODE TOKEN
 
 try {
-    var payload = jwt.decode(token,screet);
+    var payload = jwt.decode(token,secret);
     if(payload.exp <= moment.unix())
     {
 return res.status(401).send({message:"El token ha expirado"})
