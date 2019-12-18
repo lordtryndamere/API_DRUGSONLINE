@@ -2,8 +2,9 @@ var express = require('express');
 var bodyparser = require('body-parser');
 var app = express()
 
-//CARGAR ARCHIVOS DE RUTAS
 
+//CARGAR ARCHIVOS DE RUTAS
+var routes = require('./routes/userRoutes');
 
 //MIDLEWARES
 app.use(bodyparser.urlencoded({extended:false}))
@@ -23,6 +24,7 @@ app.use((req,res,next)=>{
 
 
 //RUTAS DEFINIDAS
+app.use('/API',routes);
 
 
 

@@ -8,7 +8,7 @@ var userSchema = Schema({
     name:String,
     surname:String,
     role:String,
-    orders:[order],
+    orders:[{type:Schema.Types.ObjectId,ref:'pedido'}],
     email:String,
     role:String,
     city:String,

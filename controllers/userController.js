@@ -3,7 +3,7 @@
 var userModel = require('../models/Usermodel');
 var moment = require('moment');
 var bcrypt = require('bcrypt-nodejs');
-var jwt= require('jwt-simple');
+var jwt = require('../services/jwt');
 
 
 var userController = {
@@ -16,7 +16,7 @@ if(params.name && params.surname  && params.email && params.city
 
     newuser.name = params.name;
     newuser.surname = params.surname;
-    newuser.email = params.surname;
+    newuser.email = params.email;
     newuser.role  = "Client";
     newuser.city = params.city;
     newuser.address  = params.address;
@@ -50,7 +50,7 @@ if(params.name && params.surname  && params.email && params.city
                 })
 
                 newuser.password = hashed;
-                userModel.save((err,created)=>{
+                newuser.save((err,created)=>{
                     if(err) return res.status(500).send({
                         response:"User don't created"
                     })
@@ -83,6 +83,65 @@ else{
 
 
 },
+
+AuthLogin(req,res){
+    var params = req.body;
+    var email  = params.email;
+    var password = params.password;
+    if(email&&password)
+    {
+        userModel.findOne({
+            $or:[
+                {email:email}
+            ]
+        })
+        .exec((err,finded)=>{
+            if(err) return res.status(500).send({
+                code:'500',
+                response:"Error to find user"
+            })
+
+
+            if(finded){
+                bcrypt.compare(password,finded.password,(err,validated)=>{
+                    if(err) return res.status(500).send({
+                        code:'500',
+                        response:"Error to validated user"
+                    })
+
+                    if(validated)
+                    {
+                        finded.password = undefined;
+                        res.status(200).send({
+                            code:200,
+                            message:'User authenticated successfully',
+                            token:jwt.createToken(finded)
+                        })
+                    }else{
+                        return res.status(404).send({
+                         message:"Error email or password invalid"
+                        })
+                    }
+                })
+            }
+            else{
+                return res.status(404).send({
+                    message:"User not found"
+                })
+            }
+        })
+
+    }
+    else{
+        return res.status(403).send({
+            code:'403',
+            response:'Please fill all fields'
+        })
+    }
+
+
+
+}
 
 
 }

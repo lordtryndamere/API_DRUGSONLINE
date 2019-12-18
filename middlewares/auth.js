@@ -2,11 +2,7 @@
 
 var jwt = require('jwt-simple');
 var moment  = require('moment');
-var bcrypt = require('bcrypt-nodejs')
 var secret = "key_don't secure"
-bcrypt.hash(secret,null,(err,hashedkey)=>{
-    screet = hashedkey
-})
 
 
 exports.auth = (req,res,next) =>{

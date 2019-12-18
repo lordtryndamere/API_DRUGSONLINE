@@ -9,7 +9,9 @@ var PharmacieModel = Schema({
     nit:Number,
     city:String,
     bussines_email:String,
-    password:String
+    password:String,
+    create_at:String,
+    updated_at:String
     
 })
 
