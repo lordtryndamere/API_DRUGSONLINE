@@ -10,7 +10,6 @@ var payload = {
     sub: user._id,
     name :user.name,
     role : user.role,
-    surname : user.surname,
     exp: moment().add(30,'days').unix()
 }
 return jwt.encode(payload,secret)

@@ -187,6 +187,51 @@ getUsers(req,res){
              user:response
          })
      })
+},
+
+deleteUser(req,res){
+var id = req.params.id
+
+userModel.findByIdAndDelete(id,(err,userdeleted)=>{
+    if(err) return res.status(500).send({
+        code:500,
+        response:"Error internal server"
+    })
+
+    if(!userdeleted) return res.status(404).send({
+        code:404,
+        response:"User not found"
+    })
+
+    if(userdeleted) return res.status(200).send({
+        code:200,
+        response:"User deleted succesfully",
+        user:userdeleted
+    })
+})
+
+
+},
+updateUser(req,res){
+    var id = req.params.id
+    var params  = req.body;
+    userModel.findByIdAndUpdate(id,params,{new:true},(err,response)=>{
+        if (err) return res.status(500).send({
+            code:500,
+            response:"Error internal server"
+        })
+        if(!response) return res.status(404).send({
+            code:404,
+            response:"Error user not found"
+        })
+
+        if(response) return res.status(200).send({
+            code:200,
+            response:"User updated successfully",
+            User:response
+        })
+    })
+
 }
 
 

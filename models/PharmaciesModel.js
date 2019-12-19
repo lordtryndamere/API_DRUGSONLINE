@@ -6,6 +6,7 @@ var PharmacieModel = Schema({
     name:String,
     address:String,
     products:Array,
+    role:String,
     nit:Number,
     city:String,
     bussines_email:String,

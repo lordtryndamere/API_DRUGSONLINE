@@ -1,7 +1,7 @@
 'use strict'
 
 var monngose  = require('mongoose');
-var order  = require('./orderModel');
+// var order  = require('./orderModel');
 var Schema = monngose.Schema;
 
 var userSchema = Schema({

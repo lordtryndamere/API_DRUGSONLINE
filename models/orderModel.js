@@ -9,7 +9,9 @@ var orderSchema = Schema({
     id_user_pedido:[{type:Schema.Types.ObjectId,ref:'user'}],
     hour_request:{type:Date, defaulthour:moment().unix()},
     class_product:String,
-    status:Boolean
+    status:Boolean,
+    create_at:String,
+    updated_at:String
 })
 
 module.exports = monngose.model('pedido',orderSchema);
