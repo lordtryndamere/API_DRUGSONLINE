@@ -30,7 +30,7 @@ route.put('/updatedpharmacie/:id',PharmacieController.updatePharmacie);
 route.post('/createorder',orderController.createOrder);
 route.get('/getorder/:id',orderController.getOrder);
 route.get('/getorders/:page?',orderController.getOrders);
-route.delete('/deleteorder:/id',orderController.deletedOrder);
+route.delete('/deleteorder/:id',orderController.deletedOrder);
 route.put('/updatedorder/:id',orderController.updateOrder);
 
 
