@@ -200,10 +200,10 @@ var PharmacieController = {
     },
 
     updatePharmacie(req,res){
-        var params = req.body
         var id_pharmacie = req.params.id
+        var params = req.body;
         if(params){
-            Pharmacie.findByIdAndUpdate(id,id_pharmacie,{new:true},(err,updated)=>{
+            Pharmacie.findByIdAndUpdate(id_pharmacie,params,{new:true},(err,updated)=>{
                 if (err) return res.status(500).send({
                     code:500,
                     response:"Error internal server"

@@ -215,6 +215,7 @@ userModel.findByIdAndDelete(id,(err,userdeleted)=>{
 updateUser(req,res){
     var id = req.params.id
     var params  = req.body;
+    if(params){
     userModel.findByIdAndUpdate(id,params,{new:true},(err,response)=>{
         if (err) return res.status(500).send({
             code:500,
@@ -231,6 +232,7 @@ updateUser(req,res){
             User:response
         })
     })
+}
 
 }
 
