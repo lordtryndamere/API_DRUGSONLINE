@@ -18,7 +18,9 @@ route.get('/getuser/:id',usercontroller.getUser);
 route.get('/getusers/:page?',usercontroller.getUsers);
 route.delete('/delete/:id',usercontroller.deleteUser);
 route.post('/updated/:id',usercontroller.updateUser);
+
 //PHARMACIES
+
 route.post('/registerpharmacie',PharmacieController.createPharmacie);
 route.post('/loginpharmacie',PharmacieController.authpharmacie);
 route.get('/getpharmacie/:id',PharmacieController.getPharmacie);
@@ -27,6 +29,7 @@ route.delete('/deletepharmacie/:id',PharmacieController.deletePharmacie);
 route.put('/updatedpharmacie/:id',PharmacieController.updatePharmacie);
 
 //ORDERS
+
 route.post('/createorder',orderController.createOrder);
 route.get('/getorder/:id',orderController.getOrder);
 route.get('/getorders/:page?',orderController.getOrders);

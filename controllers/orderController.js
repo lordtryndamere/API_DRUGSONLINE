@@ -6,7 +6,7 @@ var orderController = {
    createOrder(req,res){
     var order = new Order();
     var params = req.body;
-    if(params.nombre && params.status && params.clase)
+    if(params.nombre  && params.clase)
     {
         order.name_product = params.nombre;
         order.class_product = params.clase;
@@ -87,36 +87,26 @@ var orderController = {
    },
 
    updateOrder(req,res){
-    var id_order = req.params.id;
-    var updated = req.body
-    if(updated)
-    {
-        Order.findByIdAndUpdate(id_order,updated,{new:true},(err,response)=>{
-            if(err) return res.status(500).send({
-                code:500,
-                response:"Error internal server"
-            })
-
-            if(!response) return res.status(404).send({
-                code:404,
-                response:"Error order not found"
-            })
-
-            if(response) return res.status(200).send({
-                code:200,
-                response:"Order updated succesfully",
-                orders:response
-            })
-    })
-    }
-    else{
-        return res.status(401).send({
-            code:401,
-            response:"Please fill all fields"
+    var id = req.params.id
+    var params  = req.body;
+    Order.findByIdAndUpdate(id,params,{new:true},(err,response)=>{
+        if (err) return res.status(500).send({
+            code:500,
+            response:"Error internal server"
         })
-    }
+        if(!response) return res.status(404).send({
+            code:404,
+            response:"Error order not found"
+        })
 
-   },
+        if(response) return res.status(200).send({
+            code:200,
+            response:"Order updated successfully",
+            order:response
+        })
+    })
+
+},
    deletedOrder(req,res){
     var id_order = req.params.id
     Order.findByIdAndDelete(id_order,(err,response)=>{
