@@ -9,7 +9,7 @@ var PharmacieModel = Schema({
     role:String,
     nit:Number,
     city:String,
-    bussines_email:String,
+    email:String,
     password:String,
     create_at:String,
     updated_at:String

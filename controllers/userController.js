@@ -46,11 +46,13 @@ if(params.name && params.surname  && params.email && params.city
         }
         else {
             bcrypt.hash(params.password,null,null,(err,hashed)=>{
+                newuser.password = hashed;
+                
                 if (err) return res.status(500).send({
                     response:"Key don't hashed"
                 })
 
-                newuser.password = hashed;
+           
                 newuser.save((err,created)=>{
                     if(err) return res.status(500).send({
                         response:"User don't created"
@@ -99,7 +101,7 @@ AuthLogin(req,res){
         .exec((err,finded)=>{
             if(err) return res.status(500).send({
                 code:'500',
-                response:"Error to find user"
+                response:"Error to find user"   
             })
 
 

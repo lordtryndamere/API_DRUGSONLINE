@@ -19,13 +19,13 @@ var PharmacieController = {
             pharmacie.role = "Pharmacie";
             pharmacie.nit = params.nit;
             pharmacie.city = params.city;
-            pharmacie.bussines_email = params.email;
+            pharmacie.email = params.email;
             pharmacie.password = params.password;
             pharmacie.create_at = moment().unix();
             pharmacie.updated_at = moment().unix();
             Pharmacie.find({
                 $or:[
-                    {bussines_email:pharmacie.bussines_email},
+                    {email:pharmacie.email},
                     {nit:pharmacie.nit},
                 ]
             }).exec((err,findeds)=>{
@@ -39,27 +39,33 @@ var PharmacieController = {
                     })
                 }else{
                     bcrypt.hash(params.password,null,null,(err,hashed)=>{
+                        pharmacie.password = hashed;
+                        
                         if(err) return res.status(500).send({
                             code:500,
                             message:'error internal serve'
                         })
-
-                        pharmacie.password = hashed;
                         pharmacie.save((err,pharmaciecreated)=>{
                             if(err) return res.status(500).send({
                                 code:500,
                                 message:"Error internal server"
                             })
+                            if(pharmaciecreated)
+                            {
+                                return res.status(200).send({
+                                    code:200,
+                                    response:"User created successfully",
+                                    phrmaicecreate:pharmaciecreated
+                                })
+                            }
+                            else{
+                                    return res.status(400).send({
+                                        code:400,
+                                        response:"Error pharmacie not created"
+                                    })
+                            }
 
-                            if(pharmaciecreated) return res.status(200).send({
-                                code:200,
-                                response:"Pharmacie created successfully",
-                                Pharmacie:pharmaciecreated
-                            })
-
-                            if(!pharmaciecreated) return res.status(400).send({
-                                message:"Pharmaice don't registry"
-                            })
+            
                         })
                     })
                 }
@@ -76,17 +82,17 @@ var PharmacieController = {
         {
         Pharmacie.findOne({
             $or:[
-                {bussines_email:email}
+                {email:email}
             ]
-        }).exec((err,userfined)=>{
+        }).exec((err,findeds)=>{
             if(err) return res.status(500).send({
                 code:500,
                 response:"Error internal server"
             })
 
-            if(userfined)
+            if(findeds)
             {
-                bcrypt.compare(password,userfined.password,(err,validated)=>{
+                bcrypt.compare(password,findeds.password,(err,validated)=>{
                     if(err) return res.status(200).send({
                         code:500,
                         response:"Error internal server"
@@ -94,11 +100,11 @@ var PharmacieController = {
 
                     if(validated)
                     {
-                        userfined.password = undefined;
+                        findeds.password = undefined;
                         return res.status(200).send({
                             code:200,
                             response:"User authenticated succesfully",
-                            token:jwt.createToken(userfined)
+                            token:jwt.createToken(findeds)
                         })
                     }else{
                         return res.status(404).send({
